@@ -13,8 +13,14 @@ lazy val server = project
     // triggers scalaJSPipeline when using compile or continuous compilation
     Compile / compile := ((Compile / compile) dependsOn scalaJSPipeline).value,
     libraryDependencies += guice,
-    libraryDependencies += "com.vmunier" %% "scalajs-scripts" % "1.2.0"
-  )
+    libraryDependencies += "com.vmunier" %% "scalajs-scripts" % "1.2.0",
+    libraryDependencies ++= Seq(
+      "com.typesafe.play" %% "play-slick" % "5.0.0",
+      "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0",
+      "com.h2database" % "h2" % "1.4.196"
+    )
+
+    )
   .enablePlugins(PlayScala)
   .dependsOn(shared.jvm)
 

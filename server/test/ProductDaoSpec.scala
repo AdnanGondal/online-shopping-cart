@@ -1,8 +1,8 @@
 
 import com.example.onlineshoppingcart.shared.Product
 import dao.ProductsDao
-import org.scalatest.Matchers._
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.matchers.should.Matchers._
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Application
@@ -20,7 +20,10 @@ class ProductDaoSpec extends PlaySpec with ScalaFutures with GuiceOneAppPerSuite
         Product("BEOBOT", "BEO1", "Beobot is a multipurpose robot.", 159.0)
       )
 
-      dao.all().futureValue should contain theSameElementsAs (expected)
+      whenReady(dao.all()) { res =>
+        res should contain theSameElementsAs (expected)
+      }
+      //dao.all().futureValue should contain theSameElementsAs (expected)
     }
   }
 }

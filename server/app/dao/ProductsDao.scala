@@ -15,7 +15,6 @@ class ProductsDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 import profile.api._
 
 
-
   private class ProductsTable(tag: Tag) extends Table[Product](tag,
     "PRODUCT") {
     def name = column[String]("NAME")

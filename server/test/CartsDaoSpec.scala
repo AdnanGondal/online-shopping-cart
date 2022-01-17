@@ -37,16 +37,12 @@ class CartsDaoSpec extends PlaySpec with ScalaFutures with GuiceOneAppPerSuite{
       )
       val allCarts = expected ++ noise
 
-      val insertFutures = allCarts.map(dao.insert)
+      val insertFutures = Future.sequence(allCarts.map(dao.insert))
 
-      whenReady(dao.all()) { res =>
-        print(res)
-        res.size should equal(3)
+      whenReady(insertFutures) { _ =>
+        dao.cart4(user).futureValue should contain theSameElementsAs expected
+        dao.all().futureValue.size should equal(allCarts.size)
       }
-//      whenReady(Future.sequence(insertFutures)) { _ =>
-//        dao.cart4(user).futureValue should contain theSameElementsAs expected
-//        dao.all().futureValue.size should equal(allCarts.size)
-//      }
 
     }
     "error thrown when adding a cart with same user and productCode" in {
@@ -79,7 +75,9 @@ class CartsDaoSpec extends PlaySpec with ScalaFutures with GuiceOneAppPerSuite{
       )
       val expected = Vector(Cart(user, "ALD1", 1))
 
-      whenReady(Future.sequence(initial.map(dao.insert(_)))) { _ =>
+      val inserts = Future.sequence(initial.map(dao.insert(_)))
+
+      whenReady(inserts) { _ =>
         dao.remove(ProductInCart(user, "BEO1")).futureValue
         dao.cart4(user).futureValue should contain theSameElementsAs (expected)
       }
@@ -93,10 +91,12 @@ class CartsDaoSpec extends PlaySpec with ScalaFutures with GuiceOneAppPerSuite{
       val initial = Vector(Cart(user, "ALD1", 1))
       val expected = Vector(Cart(user, "ALD1", 5))
 
-//      whenReady(Future.sequence(initial.map(dao.insert(_)))) { _ =>
-//        dao.update(Cart(user, "ALD1", 5)).futureValue
-//        dao.cart4(user).futureValue should contain theSameElementsAs (expected)
-//      }
+      val inserts = Future.sequence(initial.map(dao.insert(_)))
+
+      whenReady(inserts) { _ =>
+        dao.update(Cart(user, "ALD1", 5)).futureValue
+        dao.cart4(user).futureValue should contain theSameElementsAs (expected)
+      }
     }
   }
 }

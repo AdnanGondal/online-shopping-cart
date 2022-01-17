@@ -8,3 +8,14 @@ GET        /                             com.example.onlineshoppingcart.controll
 # Prefix must match `play.assets.urlPrefix`
 GET        /assets/*file                 controllers.Assets.at(file)
 GET        /versionedAssets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+
+# Product API
+
+GET /api/products com.example.onlineshoppingcart.controllers.ApiController.listProduct
+#POST /api/products/add com.example.onlineshoppingcart.controllers.ApiController.addProduct
+
+# Cart API
+#GET /api/cart/products com.example.onlineshoppingcart.controllers.ApiController.listCartProducts()
+#DELETE /api/cart/products/:id com.example.onlineshoppingcart.controllers.ApiController.deleteCartProduct(id)
+#POST /api/cart/products/:id/quantity/:qty com.example.onlineshoppingcart.controllers.ApiController.addCartProduct(id,qty)
+#PUT /api/cart/products/:id/quantity/:qty com.example.onlineshoppingcart.controllers.ApiController.updateCartProduct(id,qty)

@@ -18,9 +18,12 @@ lazy val server = project
       "com.typesafe.play" %% "play-slick" % "5.0.0",
       "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0",
       "com.h2database" % "h2" % "1.4.196",
-      "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % "test"
-    )
-
+      "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % "test",
+      "io.circe" %%% "circe-core" % "0.14.1",
+      "io.circe" %%% "circe-generic" % "0.14.1",
+      "io.circe" %%% "circe-parser" % "0.14.1"
+    ),
+      libraryDependencies += "com.dripower" %% "play-circe" % "2814.1",
     )
   .enablePlugins(PlayScala)
   .dependsOn(shared.jvm)

@@ -1,4 +1,4 @@
-import akka.http.scaladsl.model.HttpHeader.ParsingResult.Ok
+
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
@@ -26,7 +26,10 @@ class APISpec extends PlaySpec with ScalaFutures with GuiceOneServerPerSuite{
     "list all the product" in {
 
       val response = Await.result(wsClient.url(productsURL).get(),1 second)
-      response.status mustBe Ok
+      response.status mustBe OK
+      response.body must include("PEPPER")
+      response.body must include("NAO")
+      response.body must include("BEOBOT")
     }
 
     "add a product" in {
@@ -40,7 +43,11 @@ class APISpec extends PlaySpec with ScalaFutures with GuiceOneServerPerSuite{
  }
 """
       val posted = wsClient.url(addProductURL).post(newProduct).futureValue
-      posted.status mustBe Ok
+      posted.status mustBe OK
+
+      val response = wsClient.url(productsURL).get().futureValue
+      println(response.body)
+      response.body must include("NewOne")
     }
 
     "add a product in the cart" in {

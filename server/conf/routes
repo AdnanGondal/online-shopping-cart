@@ -11,8 +11,8 @@ GET        /versionedAssets/*file        controllers.Assets.versioned(path="/pub
 
 # Product API
 
-GET /api/products com.example.onlineshoppingcart.controllers.ApiController.listProduct
-#POST /api/products/add com.example.onlineshoppingcart.controllers.ApiController.addProduct
+GET /api/products com.example.onlineshoppingcart.controllers.ApiController.listProduct()
+POST /api/product com.example.onlineshoppingcart.controllers.ApiController.addProduct()
 
 # Cart API
 #GET /api/cart/products com.example.onlineshoppingcart.controllers.ApiController.listCartProducts()

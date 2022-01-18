@@ -1,5 +1,6 @@
 
 import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.time.{Millis, Seconds, Span}
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.http.Status.OK
@@ -18,6 +19,7 @@ class APISpec extends PlaySpec with ScalaFutures with GuiceOneServerPerSuite{
     s"http://$baseURL/cart/products/$productID"
   def actionProductInCartURL(productID: String, quantity: Int) =
     s"http://$baseURL/cart/products/$productID/quantity/$quantity"
+  implicit val defaultPatience: PatienceConfig = PatienceConfig(timeout = Span(10, Seconds), interval = Span(1000, Millis))
 
   "The API" should {
 
@@ -34,14 +36,7 @@ class APISpec extends PlaySpec with ScalaFutures with GuiceOneServerPerSuite{
 
     "add a product" in {
       val newProduct =
-        """
- {
- "name" : "NewOne",
- "code" : "New",
- "description" : "The brand new product",
- "price" : 100.0
- }
-"""
+        """{"name" : "NewOne","code" : "New","description" : "The brand new product","price" : 100.0}"""
       val posted = wsClient.url(addProductURL).post(newProduct).futureValue
       posted.status mustBe OK
 
@@ -66,7 +61,7 @@ class APISpec extends PlaySpec with ScalaFutures with GuiceOneServerPerSuite{
     }
 
     "Update a product quantity in the cart" in {
-      "update a product quantity in the cart" in {
+
         val productID = "ALD1"
         val quantity = 1
         val posted = wsClient.url(actionProductInCartURL(productID,
@@ -80,7 +75,7 @@ class APISpec extends PlaySpec with ScalaFutures with GuiceOneServerPerSuite{
           newQuantity)).put("").futureValue
         update.status mustBe OK
 
-      }
+
     }
 
 

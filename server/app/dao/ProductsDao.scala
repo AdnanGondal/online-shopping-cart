@@ -1,4 +1,5 @@
 package dao
+
 import com.example.onlineshoppingcart.shared.Product
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.mvc.{AbstractController, ControllerComponents}
@@ -18,7 +19,7 @@ import profile.api._
   private class ProductsTable(tag: Tag) extends Table[Product](tag,
     "PRODUCT") {
     def name = column[String]("NAME")
-    def code = column[String]("CODE")
+    def code = column[String]("CODE",O.PrimaryKey)
     def description = column[String]("DESCRIPTION")
     def price = column[Double]("PRICE")
     override def * = (name, code, description, price) <>
